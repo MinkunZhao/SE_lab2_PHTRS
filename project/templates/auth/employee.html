@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+  Welcome to the Work Order Page, {{ name }}!
+</h1>
+<div class="column is-full">
+  <h3 class="title">Create Work Orders</h3>
+  <form method="POST">
+    <div class="box">
+      <div class="field">
+        <label class="label has-text-left">Select Pothole</label>
+        <div class="control is-expanded">
+          <div class="select is-fullwidth">
+            <select name="potholes" id="potholes">
+              {% for hole in potholes %}
+              <option value={{hole.id}}>Pothole #{{hole.id}}: {{hole.streetNumber}} {{hole.streetName}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">Street Number</label>
+            <div class="control">
+              <input class="input has-background-light" id="streetNumber" type="text" name="streetNumber" placeholder="{{potholes[0].streetNumber}}" value="{{potholes[0].streetNumber}}" readonly>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">Street Name</label>
+            <div class="control">
+              <input class="input has-background-light" id="streetName" type="text" name="streetName" placeholder="{{potholes[0].streetName}}" value="{{potholes[0].streetName}}" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">City</label>
+            <div class="control">
+              <input class="input has-background-light" name="city" type="text" placeholder={{potholes[0].city}} readonly>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">State</label>
+            <div class="control">
+              <input class="input has-background-light" name="state" type="text" placeholder={{potholes[0].state}} readonly>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">Zip</label>
+            <div class="control">
+              <input class="input has-background-light" id="zip" name="zip" type="text" placeholder="{{potholes[0].zip}}" value="{{potholes[0].zip}}" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">District</label>
+            <div class="control">
+              <input class="input has-background-light" id="district" name="district" type="text" placeholder="{{potholes[0].district}}" value="{{potholes[0].district}}" readonly>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">Location in Street</label>
+            <div class="control">
+              <input class="input has-background-light" id="location" name="location" type="text" placeholder="{{potholes[0].location}}" value="{{potholes[0].location}}" readonly>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">Size</label>
+            <div class="control">
+              <input class="input has-background-light" id="size" name="size" type="text" placeholder="{{potholes[0].size}}" value="{{potholes[0].size}}" readonly>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">Priority</label>
+            <div class="control">
+              <input class="input has-background-light" id="priority" name="priority" type="text" placeholder="{{potholes[0].priority}}" value="{{potholes[0].priority}}" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column is-8 is-offset-2">
+      <div class="box" id="work_order_info">
+        <div class="column">
+          <div class="field">
+            <label class="label">Select Repair Crew</label>
+            <div class="control is-expanded">
+              <div class="select is-fullwidth">
+                <select name="crew" id="crew">
+                  {% for crew in crewList %}
+                  <option value='{{crew.id}}'>Crew #{{crew.id}}: {{crew.people}} people</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">Running Total</label>
+            <div class="control">
+              <input class="input has-background-light" id="crewCost" name="crewCost" type="text" value="{{crewList[0].people}} crew members @ {{crewList[0].HRpay}} / hr = ${{crewList[0].total}}" readonly>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label">Repair Hours</label>
+            <div class="control">
+              <input class="input" id="hours" name="hours" type="text" value="8">
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">Running Total</label>
+            <div class="control">
+              <input class="input has-background-light" id="hoursCost" name="hoursCost" type="text" value="${{crewList[0].total}} x 8 hours = ${{crewList[0].total * 8}}" readonly>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label">Select Equipment</label>
+            <div class="select is-multiple">
+              <div class="control">
+                <select id="equipment" multiple="multiple" name="equipment" size="{{equipment|length}}">
+                  {% for item in equipment %}
+                  <option name="{{item.equipment}}" value='{{item.equipment}}'>{{item.equipment}} (${{item.costPerHour}}/HR)</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">Running Total</label>
+            <div class="control">
+              <textarea class="textarea has-background-light has-fixed-size" id="equipmentCost" rows="6" name="equipmentCost" readonly></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="column">
+          <div class="field">
+            <label class="label">Filler Material Bags (50 lbs. ea.)</label>
+            <div class="control is-expanded">
+              <div class="select is-fullwidth">
+                <select name="filler" id="filler">
+                  {% for n in range(1,26) %}
+                  <option value='{{n}}'>{{n}} bag(s) @ $12.50 / ea.</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">Running Total</label>
+            <div class="control">
+              <input class="input has-background-light" id="fillerCost" name="fillerCost" type="text" value="${{crewList[0].total}} x 8 hours = ${{crewList[0].total * 8}}" readonly>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">Cost</label>
+            <div class="control">
+              <input class="input has-background-light" id="cost" name="cost" type="text" value="$812.50" readonly>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label">Hole Status</label>
+            <div class="control is-expanded">
+              <div class="select is-fullwidth">
+                <select name="status" id="status">
+                  <option value='Not Repaired'>Not Repaired</option>
+                  <option value='Work in Progress'>Work in Progress</option>
+                  <option value='Repaired'>Repaired</option>
+                  <option value='Temporary Repair'>Temporary Repair</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <input class="button is block is-info is-large is-fullwidth" value="Create Work Order" type="submit">
+      </div>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    var equipmentCost = $('#hoursCost').val().split('$');
+    $('#equipmentCost').val('$' + equipmentCost[2]);
+    var fillerCost = $('#fillerCost').val().split('= ');
+    $('#fillerCost').val(fillerCost[1] + ' (1 filler bag(s) @ 12.50 ea.) = 812.5');
+    $('#potholes').change(function() {
+      $.getJSON('/auth/update_pothole_info', {
+        pothole: $('#potholes option:selected').text()
+      }).success(function(data) {
+        $('#streetNumber').val(data.streetNumber);
+        $('#streetName').val(data.streetName);
+        $('#zip').val(data.zip);
+        $('#size').val(data.size);
+        $('#district').val(data.district);
+        $('#location').val(data.location);
+        $('#priority').val(data.priority);
+      });
+    });
+    $('#work_order_info').change(function() {
+      $.getJSON('/auth/calculate_cost', {
+        crew: $('#crew option:selected').val(),
+        filler: $('#filler option:selected').val(),
+        status: $('#status option:selected').val(),
+        hours: $('#hours').val(),
+        equipment: $('#equipment :selected').toArray().map(item => item.value).join()
+      }).success(function(data) {
+        $('#crewCost').val(data.crewCost);
+        $('#hoursCost').val(data.hoursCost);
+        $('#cost').val(data.cost);
+        $('#equipmentCost').val(data.equipmentCost);
+        $('#fillerCost').val(data.fillerCost);
+        $('#cost').val(data.cost);
+      });
+    });
+
+  });
+</script>
+{% endblock %}

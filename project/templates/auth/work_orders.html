@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+  {% for workOrder in workOrders %}
+  <section class="col-lg-6 col-md-1 py-3">
+    <div class="card has-text-centered" style="width: 35rem;">
+      <div class="card-header has-text-centered">
+        <h3 class="has-text-centered">Work Order #{{ workOrder.WorkOrder.id }}</h3>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item text-left"><b>Street Address:</b> {{ workOrder.Pothole.streetNumber }} {{workOrder.Pothole.streetName}}</li>
+        <li class="list-group-item text-left"><b>Zip:</b> {{ workOrder.Pothole.zip }}</li>
+        <li class="list-group-item text-left"><b>Location:</b> {{ workOrder.Pothole.location }}</li>
+        <li class="list-group-item text-left"><b>District:</b> {{ workOrder.Pothole.district }}</li>
+        <li class="list-group-item text-left"><b>Size:</b> {{ workOrder.Pothole.size}} </li>
+        <li class="list-group-item text-left"><b>Priority:</b> {{ workOrder.Pothole.priority}} </li>
+        <li class="list-group-item text-left"><b>Crew Members:</b> {{ workOrder.RepairCrew.people}} </li>
+        <li class="list-group-item text-left"><b>Hours Logged:</b> {{workOrder.WorkOrder.hours }} </li>
+        <li class="list-group-item text-left"><b>Status:</b> {{workOrder.WorkOrder.status }} </li>
+        <li class="list-group-item text-left"><b>Filler Amount:</b> {{workOrder.WorkOrder.fillerAmount }} bag(s) (50 lb. ea.) </li>
+        <li class="list-group-item text-left"><b>Equipment:</b> {{ workOrder[4] }} </li>
+        <li class="list-group-item text-left"><b>Cost:</b> {{"${:,.2f}".format(workOrder.WorkOrder.cost) }} </li>
+      </ul>
+    </div>
+  </section>
+
+  {% endfor %}
+</div>
+
+{% endblock %}

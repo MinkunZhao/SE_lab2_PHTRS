@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="column is-full">
+  <h3 class="title">Damage File</h3>
+  <form method="POST" action="/auth/damage">
+    <div class="box">
+      <div class="field">
+        <label class="label has-text-left">Select Pothole</label>
+        <div class="control is-expanded">
+          <div class="select is-fullwidth">
+            <select id="potholes" name="potholes">
+              {% for hole in potholes %}
+              <option value={{hole.id}}>Pothole #{{hole.id}}: {{hole.streetNumber}} {{hole.streetName}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label has-text-left">Citizen Name</label>
+        <div class="control">
+          <input class="input" type="text" name="name" placeholder="Name">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label has-text-left">Address 1</label>
+        <div class="control">
+          <input class="input" type="text" name="address1" placeholder="Address 1">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label has-text-left">Address 2</label>
+        <div class="control is-expanded">
+          <div class="control">
+            <input class="input" type="text" name="address2" placeholder="Address 2">
+          </div>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">City</label>
+            <div class="control">
+              <input class="input" name="city" type="text" placeholder="City">
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">State</label>
+            <div class="control">
+              <input class="input" name="state" type="text" placeholder="State">
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">Zip</label>
+            <div class="control">
+              <input class="input" name="zip" type="text" placeholder="e.g., 80012">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">Phone Number</label>
+            <div class="control">
+              <input class="input" name="phone" type="text" placeholder="e.g., (xxx)-xxx-xxx">
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <label class="label has-text-left">Dollar Amount</label>
+            <div class="control">
+              <input class="input" name="dollar" type="text" placeholder="$100.00">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label has-text-left">Description of Damage</label>
+        <div class="control">
+          <input class="textarea align-top" name="damage" placeholder="Damage Description"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="field is-grouped is-grouped-right">
+      <div class="control">
+        <input class="button is-light" type="reset" value="Reset">
+      </div>
+      <div class="control">
+        <input class="button is-link" type="submit" value="Submit">
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

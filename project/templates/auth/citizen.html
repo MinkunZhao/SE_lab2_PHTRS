@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="title">
+    Welcome, {{ name }}!
+</h1>
+<div class="column is-full">
+  <h3 class="title">Pothole Information</h3>
+	<form method="POST" action="/auth/citizen">
+		<div class="box">
+			<div class="columns">
+				<div class="column">
+					<div class="field">
+						<label class="label has-text-left">Street Number</label>
+						<div class="control">
+							<input class="input" type="text" name="streetNumber" placeholder="Street Number">
+						</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="field">
+						<label class="label has-text-left">Street Name</label>
+						<div class="control is-expanded">
+							<div class="select is-fullwidth">
+								<select name="streetName" id="all_streets">
+								{% for street in streetList %}
+									<option value='{{street.FULLNAME}}'>{{street.FULLNAME}}</option>
+								{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="columns">
+				<div class = "column">
+					<div class="field">
+						<label class="label has-text-left">City</label>
+						<div class="control">
+							<input class="input" name="city" type="text" placeholder="Denver" value="Denver" disabled>
+						</div>
+					</div>
+				</div>
+				<div class="column">    
+					<div class="field">
+						<label class="label has-text-left">State</label>
+						<div class="control">
+							<input class="input" name="state" type="text" placeholder="CO" value="CO" disabled>
+						</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="field">
+						<label class="label has-text-left">Zip</label>
+						<div class="control is-expanded">
+							<div class="select is-fullwidth">
+								<select name="zip" id="all_zips">
+								{% for zip in streetList %}
+									<option value={{zip.zipleft}}>{{zip.zipleft}}</option>
+								{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+        <div class="box">
+            <div class="field">
+                <label class="label has-text-center">Location</label>
+                <div class="control is-expanded">
+                    <div class="select is-fullwidth">
+                        <select name="location" id="location">
+                            <option value="Middle">Middle</option>
+                            <option value="Right Curb">Right Curb</option>
+                            <option value="Left Curb">Left Curb</option>
+                            <option value="Right Lane">Right Lane</option>
+                            <option value="Left Lane">Left Lane</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="box">
+			<label class="label has-text-center">Pothole Size (1-10)</label>
+			<div class="columns">
+				<div class="column">
+					<div class="control">
+						<label class="radio">
+							<input type="radio" name="answer" id="1" value="1">
+							1
+						</label>
+					</div>
+				</div>
+				<div class="column">
+					<div class="control">
+						<label class="radio">
+							<input type="radio" name="answer" id="2" value="2">
+							2
+						</label>
+					</div>
+				</div>
+				<div class="column">
+					<div class="control">
+						<label class="radio">
+							<input type="radio" name="answer" id="3" value="3">
+							3
+						</label>
+					</div>
+				</div>
+				<div class="column">
+					<div class="control">
+						<label class="radio">
+							<input type="radio" name="answer" id="4" value="4">
+							4
+						</label>
+					</div>
+				</div>
+					<div class="column">
+						<div class="control">
+						<label class="radio">
+							<input type="radio" name="answer" id="5" value="5">
+							5
+						</label>
+					</div>
+				</div>
+				<div class="column">
+					<div class="control">
+						<label class="radio">
+							<input type="radio" name="answer" id="6" value="6">
+							6
+						</label>
+					</div>
+				</div>
+				<div class="column">
+					<div class="control">
+						<label class="radio">
+							<input type="radio" name="answer" id="7" value="7">
+							7
+						</label>
+					</div>
+				</div>
+				<div class="column">
+					<div class="control">
+						<label class="radio">
+							<input type="radio" name="answer" id="8" value="8">
+							8
+						</label>
+					</div>
+				</div>
+				<div class="column">
+					<div class="control">
+						<label class="radio">
+							<input type="radio" name="answer" id="9" value="9">
+							9
+						</label>
+					</div>
+				</div>
+				<div class="column">
+					<div class="control">
+						<label class="radio">
+							<input type="radio" name="answer" id="10" value="10">
+							10
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="field is-grouped is-grouped-right">
+			<div class="control">
+				<input class="button is-light" type="reset" value="Reset">
+			</div>
+			<div class="control">
+				<input class="button is-link" type="submit" value="Submit">
+			</div>
+		</div>
+	</form>
+</div>
+	
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    $('#all_streets').change(function(){
+
+      $.getJSON('/auth/get_zip', {
+        street: $('#all_streets option:selected').text()
+
+      }).success(function(data) {
+            $('#all_zips').html(data.zipValues);
+       });
+    });
+  });
+</script>
+
+
+{% endblock %}
+
